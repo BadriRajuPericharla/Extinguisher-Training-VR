@@ -11,12 +11,15 @@ public class ExtinguisherController : MonoBehaviour
     [SerializeField] private FireController fireController;
     [SerializeField] private Animator pinchAnimator;
     [SerializeField] private float rayLength = 10f;
+    public bool grabbed;
+    public bool pinching;
+    public bool pinPulled;
 
     private void Update()
     {
-        bool grabbed = xrGrab.isSelected;
-        bool pinPulled = pinController.isPulled;
-        bool pinching = pinchButton.action.IsPressed();
+        grabbed = xrGrab.isSelected;
+        pinPulled = pinController.isPulled;
+        pinching = pinchButton.action.IsPressed();
         if (pinching)
         {
             pinchAnimator.SetBool("IsFire", true);
