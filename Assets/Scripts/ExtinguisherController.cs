@@ -9,6 +9,7 @@ public class ExtinguisherController : MonoBehaviour
     [SerializeField] private XRGrabInteractable xrGrab;
     [SerializeField] private InputActionProperty pinchButton;
     [SerializeField] private FireController fireController;
+    [SerializeField] private Animator pinchAnimator;
     [SerializeField] private float rayLength = 10f;
 
     private void Update()
@@ -16,7 +17,15 @@ public class ExtinguisherController : MonoBehaviour
         bool grabbed = xrGrab.isSelected;
         bool pinPulled = pinController.isPulled;
         bool pinching = pinchButton.action.IsPressed();
- 
+        if (pinching)
+        {
+            pinchAnimator.SetBool("IsFire", true);
+        }
+        else
+        {
+            pinchAnimator.SetBool("IsFire", false);
+        }
+
         if (grabbed && pinPulled && pinching)
         {
             foamParticleEffect.SetActive(true);
