@@ -6,58 +6,50 @@ public class SafetyPinController : MonoBehaviour
     [SerializeField] private XRGrabInteractable grabInteractable;
     [SerializeField] private float pullNeeded = 0.03f;
     [SerializeField] private float maxPull = 0.15f;
-
+    [SerializeField] private bool reverseDirection = false;
     private Rigidbody rb;
-    private Transform extinguisher;    
-    private Vector3 pinStartLocalPosition;
+    private Vector3 pinStartPosition;
     private Vector3 pullAxis;
-    private Vector3 handStartLocal;
+    private Vector3 handStart;
     private bool gotHandStart = false;
     private bool pinFree = false;
     public bool isPulled = false;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         grabInteractable.trackRotation = false;
-        grabInteractable.trackPosition = true;
+        grabInteractable.trackPosition = false;
     }
 
     private void Start()
     {
-        extinguisher = transform.parent;
-        pinStartLocalPosition = transform.localPosition;
-        pullAxis = -(transform.localRotation * Vector3.forward);
+        pinStartPosition = transform.position;
+        pullAxis = reverseDirection ? -transform.forward : transform.forward;
     }
 
     private void Update()
     {
         if (isPulled) return;
-
         if (!grabInteractable.isSelected)
         {
             if (pinFree)
             {
                 pinFree = false;
                 grabInteractable.trackPosition = false;
-                transform.localPosition = pinStartLocalPosition;
+                transform.position = pinStartPosition;
             }
             gotHandStart = false;
             return;
         }
-
         Transform hand = grabInteractable.firstInteractorSelecting.transform;
-        Vector3 handLocal = extinguisher.InverseTransformPoint(hand.position);
-
         if (!gotHandStart)
         {
-            handStartLocal = handLocal;
+            handStart = hand.position;
             gotHandStart = true;
         }
-
         if (!pinFree)
         {
-            float handPulled = Vector3.Dot(handLocal - handStartLocal, pullAxis);
+            float handPulled = Vector3.Dot(hand.position - handStart, pullAxis);
             if (handPulled >= pullNeeded)
             {
                 pinFree = true;
@@ -65,11 +57,10 @@ public class SafetyPinController : MonoBehaviour
             }
             return;
         }
-
-        float pinMoved = Vector3.Dot(transform.localPosition - pinStartLocalPosition, pullAxis);
+        float pinMoved = Vector3.Dot(transform.position - pinStartPosition, pullAxis);
         if (pinMoved < 0f)
         {
-            transform.localPosition = pinStartLocalPosition;
+            transform.position = pinStartPosition;
             return;
         }
         if (pinMoved >= maxPull)
@@ -81,7 +72,6 @@ public class SafetyPinController : MonoBehaviour
     private void DropPin()
     {
         isPulled = true;
-        grabInteractable.trackPosition = true;
         grabInteractable.interactionManager.SelectExit(grabInteractable.firstInteractorSelecting, grabInteractable);
         grabInteractable.enabled = false;
         transform.SetParent(null);
