@@ -15,13 +15,15 @@ public class ExtinguisherController : MonoBehaviour
     public bool grabbed;
     public bool pinching;
     public bool pinPulled;
+    public bool aimed=false;
 
     private void Update()
     {
+        
         grabbed = xrGrab.isSelected;
         pinPulled = pinController.isPulled;
         pinching = leftPinchButton.action.IsPressed() || rightPinchButton.action.IsPressed();
-        if (pinching)
+        if (grabbed && pinching)
         {
             pinchAnimator.SetBool("IsFire", true);
         }
@@ -45,13 +47,14 @@ public class ExtinguisherController : MonoBehaviour
     {
 
         Vector3 start = foamParticleEffect.transform.position;
-        Vector3 direction = foamParticleEffect.transform.up;
+        Vector3 direction = foamParticleEffect.transform.forward;
         Debug.DrawRay(start, direction * rayLength, Color.red);
         if (Physics.Raycast(start, direction, out RaycastHit hit, rayLength))
         {
             
             if (hit.collider.CompareTag("Fire"))
             {
+                aimed = true;
                 fireController.Shrink();
             }
         }

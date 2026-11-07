@@ -116,7 +116,6 @@ GameObject:
   - component: {fileID: 4942721739581742}
   - component: {fileID: 33480933556839546}
   - component: {fileID: 23540101388518314}
-  - component: {fileID: 65330214777100594}
   - component: {fileID: 65566047391191096}
   m_Layer: 0
   m_Name: Factory2Wall05
@@ -192,27 +191,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &65330214777100594
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1623777610990424}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 11.999992, y: 5.034487, z: 0.2936861}
-  m_Center: {x: -5.9999924, y: 2.5172424, z: 0.1531677}
 --- !u!65 &65566047391191096
 BoxCollider:
   m_ObjectHideFlags: 0
