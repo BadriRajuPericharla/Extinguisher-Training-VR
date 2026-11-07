@@ -4,9 +4,9 @@ using UnityEngine.XR.Interaction.Toolkit;
 public class SafetyPinController : MonoBehaviour
 {
     [SerializeField] private XRGrabInteractable grabInteractable;
-    [SerializeField] private float pullNeeded = 0.05f;
-    [SerializeField] private float maxPull = 0.3f;
-    [SerializeField] private bool reverseDirection = false;
+    [SerializeField] private float pullNeeded = 0.03f;
+    [SerializeField] private float maxPull = 0.15f;
+    [SerializeField] private bool reverseDirection = false; 
     private Rigidbody rb;
     private Vector3 pinStartPosition;
     private Vector3 pullAxis;
@@ -20,13 +20,11 @@ public class SafetyPinController : MonoBehaviour
         grabInteractable.trackRotation = false;
         grabInteractable.trackPosition = false;
     }
-
     private void Start()
     {
         pinStartPosition = transform.position;
         pullAxis = reverseDirection ? -transform.forward : transform.forward;
     }
-
     private void Update()
     {
         if (isPulled) return;
@@ -68,7 +66,6 @@ public class SafetyPinController : MonoBehaviour
             DropPin();
         }
     }
-
     private void DropPin()
     {
         AudioManager.instance.PlayPinDropSfx();
